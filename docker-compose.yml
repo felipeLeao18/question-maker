@@ -4,13 +4,10 @@ services:
   db:
     image: postgres:13
     restart: always
-    container_name: question-maker
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: question-maker
-    expose:
-     - "8080"
+    container_name: integration-tests-prisma
     ports:
-     - "8080:8080"
-    command: -p 8080
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: tests

@@ -7,9 +7,11 @@
     "prepare": "husky install",
     "test": "dotenv -e .env.test jest",
     "lint": "eslint .",
-    "docker-up": "docker-compose -f start-memory-server-db.yml up",
-    "setup-test": "npm run docker-up",
-    "migrate-test:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init"
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "setup-test": "npm run docker:up && npm run migrate:postgres",
+    "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init"
+
   },
   "keywords": [],
   "author": "",

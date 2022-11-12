@@ -10,7 +10,7 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "setup-test": "npm run docker:up && npm run migrate:postgres",
-    "migrate:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init"
+    "migrate-test:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init"
   },
   "keywords": [],
   "author": "",

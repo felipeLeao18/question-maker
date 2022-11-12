@@ -1,4 +1,4 @@
-name: cargon-login-job
+name: question-maker-job
 on: push
 jobs:
   build:

@@ -12,8 +12,6 @@ jobs:
       run: npm i
     - name: prepare tests setup
       run: npm run setup-test
-    - name: create migrations
-      run: npm run migrate-test:postgres
     - name: Run tests 
       run: npm run test
     - name: drop db memory server instance

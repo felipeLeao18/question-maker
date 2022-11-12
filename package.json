@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "setup-test": "npm run docker:up && npm run migrate:postgres",
+    "setup-test": "npm run docker:up && npm run migrate-test:postgres",
     "migrate-test:postgres": "dotenv -e .env.test -- npx prisma migrate dev --name postgres-init"
   },
   "keywords": [],

@@ -12,7 +12,6 @@ app.use(userRouter)
 app.use(authRouter)
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-  console.log(err)
   if (err.err && err.err instanceof Error) {
     return res.status(err.statusCode).json({
       message: err.message,

@@ -2,12 +2,15 @@ import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import { router as userRouter } from './controllers/user/router'
+import { router as authRouter } from './controllers/authentication/router'
 
 const app = express()
 app.use(express.json())
-
 app.use(cors())
+
 app.use(userRouter)
+app.use(authRouter)
+
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   if (err.err && err.err instanceof Error) {
     return res.status(err.statusCode).json({

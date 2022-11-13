@@ -10,6 +10,10 @@ jobs:
         node-version: 18
     - name: Installing modules
       run: npm i
+    - name: Running linter
+      run: npm run lint
+    - name: Running tsc
+      run: npm run tsc
     - name: prepare tests setup
       run: npm run setup-test
     - name: Run tests 

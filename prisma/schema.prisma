@@ -14,5 +14,28 @@ model User {
     password String
     created_at DateTime @default(now())
     updated_at DateTime @default(now())
+    courses UserOnCourse[]
     @@map("users")
+}
+
+model Course {
+    id String @id @default(uuid())
+    name String
+    description String?
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now())
+    users UserOnCourse[]
+    @@map("courses")
+}
+
+
+
+model UserOnCourse {
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId        String
+  course        Course      @relation(fields: [courseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  courseId      String
+
+  @@id([userId, courseId])
 }

@@ -5,7 +5,9 @@ import prismaClient from '../../database/client'
 import { crypt } from '../../services/common/crypt'
 
 describe('integration: Create user', () => {
-  afterEach(() => {
+  afterEach(async () => {
+    await prismaClient.user.deleteMany()
+
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })

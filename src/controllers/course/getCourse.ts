@@ -4,14 +4,14 @@ import { courseService } from '../../services/courseService'
 
 /**
 *  @swagger
-*  /courses:
+*  /courses/courseId:
 *  get:
 *    summary: get course
 *    tags: [Course]
 *    consumes:
 *      - application/json
 *    parameters:
-*      - in: query
+*      - in: params
 *        name: courseId
 *        description: course id to be found
 *    responses:

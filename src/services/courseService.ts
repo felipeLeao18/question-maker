@@ -59,8 +59,22 @@ const remove = async (courseId: string, userId: string) => {
 
   return courseRemoved
 }
+
+const findById = async(courseId: string, userId: string) => {
+  const course = await Course.findOne({
+    users: userId, 
+    _id: courseId
+  })
+
+  if (!course) {
+    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+  }
+
+  return course
+}
 export const courseService = {
   create,
   list,
-  remove
+  remove,
+  findById
 }

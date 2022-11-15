@@ -1,4 +1,5 @@
 import zod from 'zod'
+import { buildError } from '../../lib/error'
 import { Course } from '../models/CourseModel'
 
 const createCourse = zod.object({
@@ -41,7 +42,25 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, userId: string) => 
     to: (page - 1) * perPage + courses.length
   }
 }
+
+const remove = async (courseId: string, userId: string) => {
+  if (!courseId) {
+    throw buildError({ statusCode: 422, message: 'courseId not provided' })
+  }
+
+  const courseRemoved = await Course.findOneAndRemove({
+    _id: courseId,
+    users: userId
+  })
+
+  if (!courseRemoved) {
+    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+  }
+
+  return courseRemoved
+}
 export const courseService = {
   create,
-  list
+  list,
+  remove
 }

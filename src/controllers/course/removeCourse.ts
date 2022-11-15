@@ -25,7 +25,7 @@ import { courseService } from '../../services/courseService'
 */
 
 export const removeCourse = async (req: Request & { user: string }, res: Response) => {
-  const {courseId} = req.body
+  const { courseId } = req.body
 
   const response = await courseService.remove(courseId, req.user)
   return res.status(200).json(response)

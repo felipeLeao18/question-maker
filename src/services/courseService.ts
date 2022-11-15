@@ -60,9 +60,9 @@ const remove = async (courseId: string, userId: string) => {
   return courseRemoved
 }
 
-const findById = async(courseId: string, userId: string) => {
+const findById = async (courseId: string, userId: string) => {
   const course = await Course.findOne({
-    users: userId, 
+    users: userId,
     _id: courseId
   })
 

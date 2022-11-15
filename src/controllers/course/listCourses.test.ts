@@ -1,21 +1,23 @@
 import request from 'supertest'
-import { createUser, getToken, getUser } from '../../../lib/test'
+import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '../../../lib/test'
 import { app } from '../../app'
-import prismaClient from '../../database/client'
+import { Course } from '../../models/CourseModel'
+import { User } from '../../models/UserModel'
 
 describe('integration: list courses', () => {
   beforeAll(async () => {
+    await connect(__filename)
     await createUser()
   })
-  afterEach(() => {
+
+  afterEach(async () => {
+    await resetTestData()
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })
 
   afterAll(async () => {
-    await prismaClient.course.deleteMany()
-    await prismaClient.user.deleteMany()
-    await prismaClient.$disconnect()
+    await disconnect(__filename)
   })
 
   it('should return 200 and list courses linked to user', async () => {
@@ -24,31 +26,25 @@ describe('integration: list courses', () => {
     const token = getToken(userId as string)
 
     for (let index = 0; index < USER_DOCS; index++) {
-      await prismaClient.course.create({
-        data: {
-          name: `Course ${index} name`,
-          description: 'description',
-          users: { create: [{ user: { connect: { id: userId } } }] }
-        }
+      await Course.create({
+        name: `Course ${index} name`,
+        description: 'description',
+        users: [userId]
       })
     }
 
     const INVALID_DOCS = 3
 
-    const anotherUser = await prismaClient.user.create({
-      data: {
-        name: 'any_name',
-        email: 'any_mail@mail.com',
-        password: 'any_password'
-      }
+    const anotherUser = await User.create({
+      name: 'any_name',
+      email: 'any_mail@mail.com',
+      password: 'any_password'
     })
     for (let index = 0; index < INVALID_DOCS; index++) {
-      await prismaClient.course.create({
-        data: {
-          name: `Course ${index} name`,
-          description: 'description',
-          users: { create: [{ user: { connect: { id: anotherUser.id } } }] }
-        }
+      await Course.create({
+        name: `Course ${index} name`,
+        description: 'description',
+        users: [anotherUser._id]
       })
     }
     const query = {
@@ -58,9 +54,10 @@ describe('integration: list courses', () => {
     const response = await request(app).get('/courses').query(query).set({ 'x-api-key': token })
     expect(response.statusCode).toBe(200)
 
-    const { data, from, to } = response.body
+    const { data, from, to, totalSize } = response.body
     expect(data.length).toBe(USER_DOCS)
     expect(from).toBe(1)
     expect(to).toBe(USER_DOCS)
+    expect(totalSize).toBe(USER_DOCS)
   })
 })

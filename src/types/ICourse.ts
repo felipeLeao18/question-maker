@@ -2,22 +2,20 @@
 /**
  * @swagger
  * definitions:
- *     User:
+ *     Course:
  *       properties:
- *         email:
- *           type: string
  *         name:
  *           type: string
- *         password:
+ *         description:
  *           type: string
+ *         users:
+ *           type: array of string
  *       required:
  *         - name
- *         - email
- *         - password
  *       type: object
  */
-export interface IUser {
-  email: string
+export interface ICourse {
   name: string
-  password: string
+  description: string
+  users: string[]
 }

@@ -1,18 +1,24 @@
 import request from 'supertest'
+import { connect, disconnect, resetTestData } from '../../../lib/test'
 import { app } from '../../app'
-import prismaClient from '../../database/client'
+import { User } from '../../models/UserModel'
 import { crypt } from '../../services/common/crypt'
 
 describe('integration: login', () => {
-  afterEach(() => {
+  beforeAll(async () => {
+    await connect(__filename)
+  })
+
+  afterEach(async () => {
+    await resetTestData()
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })
 
   afterAll(async () => {
-    await prismaClient.user.deleteMany()
-    await prismaClient.$disconnect()
+    await disconnect(__filename)
   })
+
   it('should return 422 when password is not provided', async () => {
     const response = await request(app).post('/auth').send({
       name: 'valid_name',
@@ -78,7 +84,7 @@ describe('integration: login', () => {
       password: 'valid_password',
       name: 'valid_name'
     }
-    await prismaClient.user.create({ data: { ...createUserSut, password: crypt.createHash(createUserSut.password) } })
+    await User.create({ ...createUserSut, password: crypt.createHash(createUserSut.password) })
 
     const response = await request(app).post('/auth').send({
       email: createUserSut.email,

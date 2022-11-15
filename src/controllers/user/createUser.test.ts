@@ -1,20 +1,22 @@
-import { User } from '@prisma/client'
 import request from 'supertest'
+import { connect, disconnect, resetTestData } from '../../../lib/test'
 import { app } from '../../app'
-import prismaClient from '../../database/client'
+import { User } from '../../models/UserModel'
 import { crypt } from '../../services/common/crypt'
 
 describe('integration: Create user', () => {
-  afterEach(async () => {
-    await prismaClient.user.deleteMany()
+  beforeAll(async () => {
+    await connect(__filename)
+  })
 
+  afterEach(async () => {
+    await resetTestData()
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })
 
   afterAll(async () => {
-    await prismaClient.user.deleteMany()
-    await prismaClient.$disconnect()
+    await disconnect(__filename)
   })
 
   it('should return 422 when name is not provided', async () => {
@@ -75,7 +77,7 @@ describe('integration: Create user', () => {
     expect(error.message.includes('Invalid email provided')).toBe(true)
   })
   it('should return 412 when email provided is valid and already taken', async () => {
-    const user: User = {
+    const user = {
       email: 'repeated_email@mail.com',
       name: 'valid_name',
       password: 'valid_password',
@@ -84,7 +86,7 @@ describe('integration: Create user', () => {
       updated_at: new Date()
     }
 
-    jest.spyOn(prismaClient.user, 'findFirst').mockResolvedValue(user)
+    jest.spyOn(User, 'findOne').mockResolvedValue(user)
 
     const response = await request(app).post('/users').send({
       name: 'valid_name',
@@ -118,20 +120,13 @@ describe('integration: Create user', () => {
     }
     const response = await request(app).post('/users').send(createUserSut)
 
-    expect(response.statusCode).toBe(201)
+    expect(response.statusCode).toBe(200)
 
-    const { success } = response.body
-    expect(success).toBe(true)
-
-    const user = await prismaClient.user.findFirst({ where: { email: createUserSut.email } })
+    const { user } = response.body
 
     expect(user).not.toBeNull()
-    expect(user?.id).toBeDefined()
-    expect(user?.created_at).toBeDefined()
-    expect(user?.updated_at).toBeDefined()
-    expect(user?.password).toBeDefined()
-
+    expect(user?._id).toBeDefined()
     expect(user?.email).toBe(createUserSut.email)
-    expect(user?.password).not.toBe(createUserSut.password)
+    expect(user?.name).toBe(createUserSut.name)
   })
 })

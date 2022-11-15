@@ -1,26 +1,27 @@
 import request from 'supertest'
-import { createUser, getToken, getUser } from '../../../lib/test'
+import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '../../../lib/test'
 import { app } from '../../app'
-import prismaClient from '../../database/client'
+import { Course } from '../../models/CourseModel'
 
 describe('integration: Create course', () => {
   beforeAll(async () => {
-    await createUser()
+    await connect(__filename)
   })
-  afterEach(() => {
+
+  afterEach(async () => {
+    await resetTestData()
     jest.clearAllMocks()
     jest.restoreAllMocks()
   })
 
   afterAll(async () => {
-    await prismaClient.user.deleteMany()
-    await prismaClient.course.deleteMany()
-    await prismaClient.$disconnect()
+    await disconnect(__filename)
   })
 
   it('should return 422 when name is not provided', async () => {
     const userId = await getUser()
     const token = getToken(userId as string)
+
     const response = await request(app).post('/courses').send({
     }).set({ 'x-api-key': token })
     expect(response.statusCode).toBe(422)
@@ -30,6 +31,7 @@ describe('integration: Create course', () => {
     expect(error.message[0]).toBe('name is required')
   })
   it('should return 200 and create course', async () => {
+    await createUser()
     const userId = await getUser()
 
     const token = getToken(userId as string)
@@ -43,12 +45,12 @@ describe('integration: Create course', () => {
     expect(response.statusCode).toBe(200)
 
     const course = response.body
-    expect(course.id).toBeDefined()
+    expect(course._id).toBeDefined()
     expect(course.name).toBe(courseSut.name)
     expect(course.description).toBe(courseSut.description)
 
-    const users = await prismaClient.course.findFirst({ where: { id: course.id } }).users()
+    const courseDb = await Course.findById(course._id)
 
-    expect(users?.some(({ userId: userCourse }) => userCourse === userId))
+    expect(courseDb?.users?.some(courseUserId => courseUserId.toString() === userId?.toString())).toBeTruthy()
   })
 })

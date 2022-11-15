@@ -14,9 +14,5 @@ jobs:
       run: npm run lint
     - name: Running tsc
       run: npm run tsc
-    - name: prepare tests setup
-      run: npm run setup-test
     - name: Run tests 
       run: npm run test
-    - name: drop db memory server instance
-      run: npm run docker:down

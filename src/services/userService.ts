@@ -1,8 +1,8 @@
 import { IUser } from '../types/IUser'
 import zod from 'zod'
 import { buildError } from '../../lib/error'
-import prismaClient from '../database/client'
 import { crypt } from './common/crypt'
+import { User } from '../models/UserModel'
 
 const createUser = zod.object({
   name: zod.string().min(1, 'name is required'),
@@ -10,26 +10,24 @@ const createUser = zod.object({
   password: zod.string().min(6, 'password must have at least 6 characters')
 })
 
-const create = async ({ name, email, password }: Pick<IUser, 'name' | 'email' | 'password'>): Promise<{ success: true }> => {
+const create = async ({ name, email, password }: Pick<IUser, 'name' | 'email' | 'password'>): Promise<{ user: { email: string, name: string, _id: string } }> => {
   createUser.parse({ name, email, password })
   if (!email) {
     throw buildError({ statusCode: 422, message: 'Email not provided' })
   }
 
-  if (await prismaClient.user.findFirst({ where: { email } })) {
+  if (await User.findOne({ email })) {
     throw buildError({ statusCode: 412, message: 'Email already taken' })
   }
 
   const hashPassword = crypt.createHash(password)
 
-  await prismaClient.user.create({
-    data: {
-      name,
-      email,
-      password: hashPassword
-    }
+  const user = await User.create({
+    name,
+    email,
+    password: hashPassword
   })
-  return { success: true }
+  return { user: { email: user.email, name: user.name, _id: user._id.toString() } }
 }
 
 export const userService = {

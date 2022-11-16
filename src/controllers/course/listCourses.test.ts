@@ -2,7 +2,7 @@ import request from 'supertest'
 import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '../../../lib/test'
 import { app } from '../../app'
 import { Course } from '../../models/CourseModel'
-import { User } from '../../models/UserModel'
+import { ObjectId } from 'mongodb'
 
 describe('integration: list courses', () => {
   beforeAll(async () => {
@@ -35,16 +35,11 @@ describe('integration: list courses', () => {
 
     const INVALID_DOCS = 3
 
-    const anotherUser = await User.create({
-      name: 'any_name',
-      email: 'any_mail@mail.com',
-      password: 'any_password'
-    })
     for (let index = 0; index < INVALID_DOCS; index++) {
       await Course.create({
         name: `Course ${index} name`,
         description: 'description',
-        users: [anotherUser._id]
+        users: [new ObjectId()]
       })
     }
     const query = {

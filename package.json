@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "test": "dotenv -e .env.test jest",
+    "test": "jest --maxWorkers=50%",
     "lint": "eslint .",
     "tsc": "tsc"
   },

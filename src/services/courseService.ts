@@ -74,7 +74,6 @@ const findById = async (courseId: string, userId: string) => {
 }
 
 export const validateUserOnCourse = async (userId: string, courseId: string) => {
-
   if (!userId || !courseId) {
     throw buildError({ statusCode: 401, message: 'Unauthorized' })
   }

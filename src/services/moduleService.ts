@@ -1,6 +1,5 @@
 import zod from 'zod'
 import { buildError } from '../../lib/error'
-import { Course } from '../models/CourseModel'
 import { Module } from '../models/ModuleModel'
 import { validateUserOnCourse } from './courseService'
 

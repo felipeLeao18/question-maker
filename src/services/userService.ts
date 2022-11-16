@@ -1,8 +1,8 @@
-import { IUser } from '../types/IUser'
+import { IUser } from '@/types/IUser'
 import zod from 'zod'
-import { buildError } from '../../lib/error'
-import { crypt } from './common/crypt'
-import { User } from '../models/UserModel'
+import { buildError } from '@lib/error'
+import { crypt } from '@services/common/crypt'
+import { User } from '@models/UserModel'
 
 const createUser = zod.object({
   name: zod.string().min(1, 'name is required'),

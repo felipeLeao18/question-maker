@@ -1,8 +1,8 @@
-import { buildError } from '../../lib/error'
-import { auth } from './common/auth'
-import { crypt } from './common/crypt'
+import { buildError } from '@lib/error'
+import { auth } from '@services/common/auth'
+import { crypt } from '@services/common/crypt'
 import zod from 'zod'
-import { User } from '../models/UserModel'
+import { User } from '@models/UserModel'
 
 const loginValid = zod.object({
   email: zod.string().min(1, { message: 'email is required' }).email('Invalid email provided'),

@@ -1,8 +1,8 @@
 
 import request from 'supertest'
-import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '../../../lib/test'
-import { app } from '../../app'
-import { Course } from '../../models/CourseModel'
+import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '@lib/test'
+import { app } from '@app'
+import { Course } from '@models/CourseModel'
 
 describe('integration: Create module', () => {
   beforeAll(async () => {

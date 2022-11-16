@@ -1,9 +1,16 @@
 
-import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '../../../lib/test'
+import {
+  connect,
+  createUser,
+  disconnect,
+  getToken,
+  getUser,
+  resetTestData
+} from '@lib/test'
 import request from 'supertest'
-import { app } from '../../app'
+import { app } from '@app'
 import { ObjectId } from 'mongodb'
-import { Course } from '../../models/CourseModel'
+import { Course } from '@models/CourseModel'
 
 describe('integration: get course', () => {
   beforeAll(async () => {

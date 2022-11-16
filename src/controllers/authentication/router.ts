@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { login } from './login'
+import { login } from '@controllers/authentication/login'
 
 const router = Router()
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { sign, verify } from 'jsonwebtoken'
-import { config } from '../../config'
+import { config } from '@config'
 
 const createToken = ({ userId }: { userId: string }, options = { expiresIn: '1d' }) => {
   return sign({ user_id: userId }, config.AUTH_TOKEN, options)

@@ -13,16 +13,16 @@ import { courseService } from '../../services/courseService'
 *    parameters:
 *      - in: query
 *        name: filter
-*        description: or filter to contains on name or descriptiion
+*        description: or filter to contains on name or description
 *        schema:
 *          type: object
-*          required:
-*            - name
 *          properties:
-*            name:
+*            filter:
 *              type: string
-*            description:
-*              type: string
+*            page:
+*              type: number
+*            perPage:
+*              type: number
 *    responses:
 *      422:
 *        description: 'Invalid schema'

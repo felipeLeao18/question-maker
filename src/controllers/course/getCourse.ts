@@ -15,8 +15,6 @@ import { courseService } from '../../services/courseService'
 *        name: courseId
 *        description: course id to be found
 *    responses:
-*      422:
-*        description: 'courseId not provided'
 *      401:
 *        description: 'Unauthorized'
 *      200:

@@ -1,20 +1,21 @@
 /**
  * @swagger
  * definitions:
- *     Course:
+ *     Module:
  *       properties:
  *         name:
  *           type: string
  *         description:
  *           type: string
- *         users:
- *           type: array of string
+ *         course:
+ *           type: objectid
  *       required:
  *         - name
+ *         - course
  *       type: object
  */
-export interface ICourse {
+export interface IModule {
   name: string
   description: string
-  users: string[]
+  course: string
 }

@@ -1,19 +1,20 @@
-
 import { Request, Response } from 'express'
-import { courseService } from '../../services/courseService'
+import { moduleService } from '../../services/moduleService'
 
 /**
 *  @swagger
-*  /courses:
+*  /modules:
 *  get:
-*    summary: list courses
-*    tags: [Course]
+*    summary: list course modules
+*    tags: [Module]
 *    consumes:
 *      - application/json
 *    parameters:
 *      - in: query
 *        name: filter
 *        description: or filter to contains on name or description
+*          required:
+*            - courseId
 *        schema:
 *          type: object
 *          properties:
@@ -27,19 +28,20 @@ import { courseService } from '../../services/courseService'
 *      422:
 *        description: 'Invalid schema'
 *      200:
-*        description: 'courses list'
+*        description: 'course modules list'
 *        schema:
-*          $ref: '#/definitions/Course'
+*          $ref: '#/definitions/Module'
 */
 
-export const listCourses = async (req: Request & { user: string }, res: Response) => {
-  const { filter, page, perPage } = req.query
+export const listModules = async (req: Request & { user: string }, res: Response) => {
+  const { filter, page, perPage, courseId } = req.query
 
-  const response = await courseService.list({
+  const response = await moduleService.list({
     filter: filter?.toString() ?? undefined,
     page: page ? parseInt(page.toString()) : undefined,
     perPage: perPage ? parseInt(perPage.toString()) : undefined
   },
+  courseId?.toString() ?? '',
   req.user)
   return res.status(200).json(response)
 }

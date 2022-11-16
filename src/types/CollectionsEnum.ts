@@ -1,5 +1,6 @@
 
 export enum CollectionEnum {
   user = 'users',
-  course = 'courses'
+  course = 'courses',
+  module = 'modules'
 }

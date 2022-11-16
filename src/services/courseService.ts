@@ -72,6 +72,18 @@ const findById = async (courseId: string, userId: string) => {
 
   return course
 }
+
+export const validateUserOnCourse = async (userId: string, courseId: string) => {
+  if (!userId || !courseId) {
+    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+  }
+
+  const userOnCourse = await Course.exists({ _id: courseId, users: userId })
+  if (!userOnCourse) {
+    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+  }
+}
+
 export const courseService = {
   create,
   list,

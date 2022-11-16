@@ -1,7 +1,7 @@
 import zod from 'zod'
-import { buildError } from '../../lib/error'
-import { Module } from '../models/ModuleModel'
-import { validateUserOnCourse } from './courseService'
+import { buildError } from '@lib/error'
+import { Module } from '@models/ModuleModel'
+import { validateUserOnCourse } from '@services/courseService'
 
 const createModule = zod.object({
   name: zod.string().min(1, 'name is required'),

@@ -1,6 +1,6 @@
 import zod from 'zod'
-import { buildError } from '../../lib/error'
-import { Course } from '../models/CourseModel'
+import { buildError } from '@lib/error'
+import { Course } from '@models/CourseModel'
 
 const createCourse = zod.object({
   name: zod.string().min(1, 'name is required'),

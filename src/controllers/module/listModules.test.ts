@@ -1,10 +1,10 @@
 
 import request from 'supertest'
-import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '../../../lib/test'
-import { app } from '../../app'
-import { Course } from '../../models/CourseModel'
+import { connect, createUser, disconnect, getToken, getUser, resetTestData } from '@lib/test'
+import { app } from '@app'
+import { Course } from '@models/CourseModel'
 import { ObjectId } from 'mongodb'
-import { Module } from '../../models/ModuleModel'
+import { Module } from '@models/ModuleModel'
 
 describe('integration: list course modules', () => {
   beforeAll(async () => {

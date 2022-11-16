@@ -1,7 +1,7 @@
 
 import mongoose, { Schema } from 'mongoose'
-import { CollectionEnum } from '../types/CollectionsEnum'
-import { ICourse } from '../types/ICourse'
+import { CollectionEnum } from '@/types/CollectionsEnum'
+import { ICourse } from '@/types/ICourse'
 
 const courseSchema = new Schema({
   name: { type: String },

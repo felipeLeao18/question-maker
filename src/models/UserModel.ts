@@ -1,7 +1,7 @@
 
 import mongoose, { Schema } from 'mongoose'
-import { CollectionEnum } from '../types/CollectionsEnum'
-import { IUser } from '../types/IUser'
+import { CollectionEnum } from '@/types/CollectionsEnum'
+import { IUser } from '@/types/IUser'
 
 const userSchema = new Schema({
   name: { type: String },

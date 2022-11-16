@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { userService } from '../../services/userService'
+import { userService } from '@services/userService'
 
 /**
 *  @swagger

@@ -1,8 +1,8 @@
 import request from 'supertest'
-import { connect, disconnect, resetTestData } from '../../../lib/test'
-import { app } from '../../app'
-import { User } from '../../models/UserModel'
-import { crypt } from '../../services/common/crypt'
+import { connect, disconnect, resetTestData } from '@lib/test'
+import { app } from '@app'
+import { User } from '@models/UserModel'
+import { crypt } from '@services/common/crypt'
 
 describe('integration: login', () => {
   beforeAll(async () => {

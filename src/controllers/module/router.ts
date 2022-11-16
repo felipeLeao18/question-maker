@@ -1,11 +1,11 @@
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { verifyAuth } from '../../services/common/auth'
-import { createModule } from './createModule'
-import { getModule } from './getModule'
-import { listModules } from './listModules'
-import { removeModule } from './removeModule'
+import { verifyAuth } from '@services/common/auth'
+import { createModule } from '@controllers/module/createModule'
+import { getModule } from '@controllers/module/getModule'
+import { listModules } from '@controllers/module/listModules'
+import { removeModule } from '@controllers/module/removeModule'
 
 const router = Router()
 

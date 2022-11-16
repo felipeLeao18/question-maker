@@ -1,8 +1,8 @@
-import { User } from '../src/models/UserModel'
-import { auth } from '../src/services/common/auth'
-import { crypt } from '../src/services/common/crypt'
+import { User } from '@models/UserModel'
+import { crypt } from '@services/common/crypt'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
+import { auth } from '@services/common/auth'
 
 const createUser = async () => {
   const user = await User.create({

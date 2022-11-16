@@ -1,7 +1,7 @@
 
 import mongoose, { Schema } from 'mongoose'
-import { CollectionEnum } from '../types/CollectionsEnum'
-import { IModule } from '../types/IModule'
+import { CollectionEnum } from '@/types/CollectionsEnum'
+import { IModule } from '@/types/IModule'
 
 const moduleSchema = new Schema({
   name: { type: String },

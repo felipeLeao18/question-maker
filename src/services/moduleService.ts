@@ -5,19 +5,33 @@ import { validateUserOnCourse } from '@services/courseService'
 
 const createModule = zod.object({
   name: zod.string().min(1, 'name is required'),
-  description: zod.string().optional()
+  description: zod.string().optional(),
+  order: zod.number().optional()
 })
 
-const create = async ({ name, description = 'description' }, courseId: string, userId: string) => {
+const create = async ({ name, description = 'description', order }, courseId: string, userId: string) => {
   await validateUserOnCourse(userId, courseId)
 
-  createModule.parse({ name, description })
+  createModule.parse({ name, description, order })
+
+  const higherOrder = (await Module.findOne({ course: courseId }, { order: 1 }).sort({ order: 'desc' }))?.order
+
+  if (order !== null && (order <= 0 || (order > (higherOrder ?? 0) + 1))) {
+    throw buildError({ statusCode: 422, message: `order must be between 1 and ${(higherOrder ?? 0) + 1}` })
+  }
 
   const module = await Module.create({
     name,
     description,
-    course: courseId
+    course: courseId,
+    order: order || (higherOrder ?? 0) + 1
   })
+
+  await Module.updateMany({
+    order: { $gte: module.order },
+    _id: { $ne: module._id },
+    course: courseId
+  }, { $inc: { order: 1 } })
   return module
 }
 
@@ -39,7 +53,7 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, courseId: string, u
   })
     .skip(perPage * (page - 1))
     .limit(perPage)
-    .sort({ createdAt: 'desc' })
+    .sort({ order: 'desc' })
 
   const totalSize = await Module.countDocuments({
     ...fullFilter,
@@ -69,7 +83,10 @@ const remove = async (moduleId: string, userId: string) => {
   await validateUserOnCourse(userId, module.course)
 
   const moduleRemoved = await Module.findByIdAndDelete(moduleId)
-
+  await Module.updateMany({
+    order: { $gt: moduleRemoved?.order },
+    course: module.course
+  }, { $inc: { order: -1 } })
   return moduleRemoved
 }
 

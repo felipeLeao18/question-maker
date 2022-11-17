@@ -34,8 +34,8 @@ import { moduleService } from '@services/moduleService'
 */
 
 export const createModule = async (req: Request & { user: string }, res: Response) => {
-  const { name, description, courseId } = req.body
+  const { order, name, description, courseId } = req.body
 
-  const response = await moduleService.create({ name, description }, courseId, req.user)
+  const response = await moduleService.create({ name, description, order }, courseId, req.user)
   return res.status(200).json(response)
 }

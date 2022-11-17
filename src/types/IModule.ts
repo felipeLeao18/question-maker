@@ -18,4 +18,5 @@ export interface IModule {
   name: string
   description: string
   course: string
+  order: number
 }

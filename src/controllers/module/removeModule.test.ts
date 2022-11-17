@@ -46,7 +46,7 @@ describe('integration: remove module', () => {
     const error = response.body
     expect(error.message).toBe('Unauthorized')
   })
-  it('should remove module', async () => {
+  it('should remove module but maintain modules order', async () => {
     const userId = await getUser()
     const token = getToken(userId as string)
 
@@ -56,21 +56,35 @@ describe('integration: remove module', () => {
       users: [userId]
     })
 
-    const module = await Module.create({
-      name: 'mock_module',
-      course: course._id
-    })
+    const anotherModules: any = []
+    for (let i = 0; i < 5; i++) {
+      anotherModules.push({
+        course: course._id,
+        order: i + 1,
+        name: `module ${i + 1}`
+      })
+    }
+
+    await Module.insertMany(anotherModules)
+
+    const moduleToDelete = await Module.findOne({ order: 3, course: course._id }).select('_id')
     const response = await request(app)
       .delete('/modules')
-      .send({ moduleId: module._id })
+      .send({ moduleId: moduleToDelete?._id })
       .set({ 'x-api-key': token })
 
     expect(response.statusCode).toBe(200)
 
     const res = response.body
-    expect(res._id.toString()).toBe(module._id.toString())
+    expect(res._id.toString()).toBe(moduleToDelete?._id.toString())
 
     const moduleRemovedDb = await Module.findById(course._id)
     expect(moduleRemovedDb).toBeNull()
+
+    const modulesUpdated = await Module.find({ course: course._id }).sort({ order: 'asc' })
+
+    for (let i = 0; i < modulesUpdated.length; i++) {
+      expect(modulesUpdated[i].order).toBe(i + 1)
+    }
   })
 })

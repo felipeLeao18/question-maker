@@ -6,6 +6,7 @@ import { IModule } from '@/types/IModule'
 const moduleSchema = new Schema({
   name: { type: String },
   description: { type: String },
+  order: { type: Number },
   course: {
     type: Schema.Types.ObjectId,
     ref: CollectionEnum.course

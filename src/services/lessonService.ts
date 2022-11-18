@@ -21,7 +21,7 @@ const create = async ({ name, description = 'description', order }, moduleId: st
     .sort({ order: 'desc' })
     .lean()
 
-  const courseId = higherOrder.module.course ?? (await Module.findById(moduleId, { course: 1 }))?.course
+  const courseId = higherOrder?.module.course ?? (await Module.findById(moduleId, { course: 1 }))?.course
 
   if (!courseId) {
     throw buildError({ statusCode: 401, message: 'Unauthorized' })
@@ -36,7 +36,7 @@ const create = async ({ name, description = 'description', order }, moduleId: st
     name,
     description,
     module: moduleId,
-    order: order || (higherOrder.order ?? 0) + 1
+    order: order || (higherOrder?.order ?? 0) + 1
   })
 
   await Lesson.updateMany({

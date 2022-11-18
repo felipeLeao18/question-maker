@@ -6,6 +6,7 @@ import { router as userRouter } from '@controllers/user/router'
 import { router as authRouter } from '@controllers/authentication/router'
 import { router as courseRouter } from '@controllers/course/router'
 import { router as moduleRouter } from '@controllers/module/router'
+import { router as lessonRouter } from '@controllers/lesson/router'
 
 const app = express()
 app.use(express.json())
@@ -15,6 +16,7 @@ app.use(userRouter)
 app.use(authRouter)
 app.use(courseRouter)
 app.use(moduleRouter)
+app.use(lessonRouter)
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   if (err.err && err.err instanceof Error) {

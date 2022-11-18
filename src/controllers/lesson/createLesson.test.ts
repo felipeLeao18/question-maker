@@ -14,6 +14,7 @@ describe('integration: Create lesson', () => {
     await resetTestData()
     jest.clearAllMocks()
     jest.restoreAllMocks()
+    await createUser()
   })
 
   afterAll(async () => {
@@ -54,12 +55,14 @@ describe('integration: Create lesson', () => {
       moduleId: module._id,
       name: 'mock_lesson'
     }
-    const response = await request(app).post('/lessons').send({
-    }).set({ 'x-api-key': token })
-    expect(response.statusCode).toBe(422)
+
+    const response = await request(app).post('/lessons').send(lessonSut).set({ 'x-api-key': token })
+
+    expect(response.statusCode).toBe(200)
 
     const lesson = response.body
     expect(lesson.name).toBe(lessonSut.name)
     expect(lesson.order).toBe(1)
+    expect(lesson._id).toBeDefined()
   })
 })

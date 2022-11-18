@@ -22,7 +22,7 @@ import { moduleService } from '@services/moduleService'
 *              type: string
 *            description:
 *              type: string
-*            course:
+*            courseId:
 *              type: string
 *    responses:
 *      422:

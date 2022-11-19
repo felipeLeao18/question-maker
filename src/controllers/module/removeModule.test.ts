@@ -78,7 +78,7 @@ describe('integration: remove module', () => {
     const res = response.body
     expect(res._id.toString()).toBe(moduleToDelete?._id.toString())
 
-    const moduleRemovedDb = await Module.findById(course._id)
+    const moduleRemovedDb = await Module.findById(moduleToDelete?._id)
     expect(moduleRemovedDb).toBeNull()
 
     const modulesUpdated = await Module.find({ course: course._id }).sort({ order: 'asc' })

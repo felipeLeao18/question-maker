@@ -94,8 +94,33 @@ const findById = async (lessonId: string, userId: string) => {
   return lesson
 }
 
+const remove = async (lessonId: string, userId: string) => {
+  if (!lessonId) {
+    throw buildError({ statusCode: 422, message: 'lessonId not provided' })
+  }
+
+  const lesson: Omit<ILesson, 'module'> & { module: { course: string } } = await Lesson.findById(lessonId, { module: 1, order: 1 })
+    .populate({ path: 'module', select: 'course' })
+    .lean()
+
+  if (!lesson) {
+    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+  }
+
+  await validateUserOnCourse(userId, lesson.module.course)
+
+  const lessonRemoved = await Lesson.findByIdAndDelete(lessonId)
+
+  await Lesson.updateMany({
+    module: lesson.module,
+    order: { $gt: lesson.order }
+  }, {$inc: {order: -1}})
+  return lessonRemoved
+}
+
 export const lessonService = {
   create,
   list,
-  findById
+  findById,
+  remove
 }

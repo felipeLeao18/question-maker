@@ -29,8 +29,10 @@ import { moduleService } from '@services/moduleService'
 *        description: 'Invalid schema'
 *      200:
 *        description: 'module created'
-*        schema:
-*          $ref: '#/definitions/Module'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Module'
 */
 
 export const createModule = async (req: Request & { user: string }, res: Response) => {

@@ -5,16 +5,14 @@ import { moduleService } from '@services/moduleService'
 *  @swagger
 *  /modules:
 *  get:
-*    summary: list course modules
+*    summary: list modules
 *    tags: [Module]
 *    consumes:
 *      - application/json
 *    parameters:
 *      - in: query
 *        name: filter
-*        description: or filter to contains on name or description
-*          required:
-*            - courseId
+*        description: 'or filter to contains on name or description'
 *        schema:
 *          type: object
 *          properties:
@@ -28,11 +26,12 @@ import { moduleService } from '@services/moduleService'
 *      422:
 *        description: 'Invalid schema'
 *      200:
-*        description: 'course modules list'
-*        schema:
-*          $ref: '#/definitions/Module'
+*        description: 'Modules list'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Module'
 */
-
 export const listModules = async (req: Request & { user: string }, res: Response) => {
   const { filter, page, perPage, courseId } = req.query
 

@@ -21,8 +21,10 @@ import { lessonService } from '@services/lessonService'
 *        description: 'Unauthorized'
 *      200:
 *        description: 'lesson removed'
-*        schema:
-*          $ref: '#/definitions/Lesson'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Lesson'
 */
 
 export const removeLesson = async (req: Request & { user: string }, res: Response) => {

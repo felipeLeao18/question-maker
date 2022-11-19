@@ -8,7 +8,13 @@
  *         description:
  *           type: string
  *         course:
- *           type: objectid
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  *       required:
  *         - name
  *         - course

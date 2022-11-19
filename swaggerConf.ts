@@ -4,7 +4,12 @@ export const swaggerConf = {
     info: {
       title: 'Question Maker',
       version: '0.1.0',
-      description: 'Welcome to the Question Maker official documentation'
+      description: 'Welcome to the Question Maker official documentation',
+      contact: {
+        name: 'Felipe Leao',
+        url: 'https://www.linkedin.com/in/felipeleao18/',
+        email: 'flpleao@discente.ufg.br'
+      }
     }
   },
   apis: ['./src/**/*.ts'],
@@ -18,17 +23,16 @@ export const swaggerConf = {
       description: 'courses'
     },
     {
-      name: 'Modules',
+      name: 'Module',
       description: 'modules'
     },
     {
-      name: 'Lessons',
+      name: 'Lesson',
       description: 'lessons'
     },
-
     {
-      name: 'Questions',
-      description: 'questions'
+      name: 'Auth',
+      description: 'authentication'
     }
   ]
 }

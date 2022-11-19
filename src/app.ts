@@ -4,7 +4,7 @@ import 'express-async-errors'
 import cors from 'cors'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
-import { swaggerConf } from 'swaggerConf'
+import { swaggerConf } from '@docs-setup'
 
 import { router as userRouter } from '@controllers/user/router'
 import { router as authRouter } from '@controllers/authentication/router'

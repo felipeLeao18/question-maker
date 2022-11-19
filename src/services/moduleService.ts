@@ -48,7 +48,6 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, courseId: string, u
 
   const modules = await Module.find({
     ...fullFilter,
-    users: userId,
     course: courseId
   })
     .skip(perPage * (page - 1))
@@ -57,7 +56,6 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, courseId: string, u
 
   const totalSize = await Module.countDocuments({
     ...fullFilter,
-    users: userId,
     course: courseId
   })
 
@@ -91,10 +89,7 @@ const remove = async (moduleId: string, userId: string) => {
 }
 
 const findById = async (courseId: string, userId: string) => {
-  const module = await Module.findOne({
-    users: userId,
-    _id: courseId
-  })
+  const module = await Module.findById(courseId)
 
   if (!module) {
     throw buildError({ statusCode: 401, message: 'Unauthorized' })

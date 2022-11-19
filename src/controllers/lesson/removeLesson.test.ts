@@ -5,8 +5,9 @@ import { app } from '@app'
 import { ObjectId } from 'mongodb'
 import { Course } from '@models/CourseModel'
 import { Module } from '@models/ModuleModel'
+import { Lesson } from '@models/LessonModel'
 
-describe('integration: remove module', () => {
+describe('integration: remove lesson', () => {
   beforeAll(async () => {
     await connect(__filename)
     await createUser()
@@ -18,27 +19,27 @@ describe('integration: remove module', () => {
   afterAll(async () => {
     await disconnect(__filename)
   })
-  it('should fail when moduleId is not provided', async () => {
+  it('should fail when lessonId is not provided', async () => {
     const userId = await getUser()
     const token = getToken(userId as string)
 
     const response = await request(app)
-      .delete('/modules')
-      .send({ moduleId: '' })
+      .delete('/lessons')
+      .send({ lessonId: '' })
       .set({ 'x-api-key': token })
 
     expect(response.statusCode).toBe(422)
 
     const error = response.body
-    expect(error.message).toBe('moduleId not provided')
+    expect(error.message).toBe('lessonId not provided')
   })
-  it('should fail when moduleId provided can not be found or is not linked to some user course', async () => {
+  it('should fail when lesson provided can not be found or is not linked to some user course module', async () => {
     const userId = await getUser()
     const token = getToken(userId as string)
 
     const response = await request(app)
-      .delete('/modules')
-      .send({ moduleId: new ObjectId() })
+      .delete('/lessons')
+      .send({ lessonId: new ObjectId() })
       .set({ 'x-api-key': token })
 
     expect(response.statusCode).toBe(401)
@@ -46,7 +47,7 @@ describe('integration: remove module', () => {
     const error = response.body
     expect(error.message).toBe('Unauthorized')
   })
-  it('should remove module but maintain modules order', async () => {
+  it('should remove module but maintain lessons order', async () => {
     const userId = await getUser()
     const token = getToken(userId as string)
 
@@ -55,36 +56,40 @@ describe('integration: remove module', () => {
       description: 'mock_description',
       users: [userId]
     })
+    const module = await Module.create({
+      course: course._id,
+      name: 'module_mock'
+    })
 
-    const anotherModules: any = []
+    const lessons: any = []
     for (let i = 0; i < 5; i++) {
-      anotherModules.push({
-        course: course._id,
+      lessons.push({
+        module: module._id,
         order: i + 1,
-        name: `module ${i + 1}`
+        name: `lesson ${i + 1}`
       })
     }
 
-    await Module.insertMany(anotherModules)
+    await Lesson.insertMany(lessons)
 
-    const moduleToDelete = await Module.findOne({ order: 3, course: course._id }).select('_id')
+    const lessonToDelete = await Lesson.findOne({ order: 3, module: module._id }).select('_id')
     const response = await request(app)
-      .delete('/modules')
-      .send({ moduleId: moduleToDelete?._id })
+      .delete('/lessons')
+      .send({ lessonId: lessonToDelete?._id })
       .set({ 'x-api-key': token })
 
     expect(response.statusCode).toBe(200)
 
     const res = response.body
-    expect(res._id.toString()).toBe(moduleToDelete?._id.toString())
+    expect(res._id.toString()).toBe(lessonToDelete?._id.toString())
 
-    const moduleRemovedDb = await Module.findById(moduleToDelete?._id)
-    expect(moduleRemovedDb).toBeNull()
+    const lessonRemovedDb = await Lesson.findById(lessonToDelete?._id)
+    expect(lessonRemovedDb).toBeNull()
 
-    const modulesUpdated = await Module.find({ course: course._id }).sort({ order: 'asc' })
+    const lessonsUpdated = await Lesson.find({ module: module._id }).sort({ order: 'asc' })
 
-    for (let i = 0; i < modulesUpdated.length; i++) {
-      expect(modulesUpdated[i].order).toBe(i + 1)
+    for (let i = 0; i < lessonsUpdated.length; i++) {
+      expect(lessonsUpdated[i].order).toBe(i + 1)
     }
   })
 })

@@ -1,18 +1,19 @@
+
 import { Request, Response } from 'express'
-import { moduleService } from '@services/moduleService'
+import { lessonService } from '@services/lessonService'
 
 /**
 *  @swagger
-*  /modules:
+*  /lessons:
 *  post:
-*    summary: Create module
-*    tags: [Module]
+*    summary: Create lesson
+*    tags: [Lesson]
 *    consumes:
 *      - application/json
 *    parameters:
 *      - in: body
-*        name: module
-*        description: Create module
+*        name: Lesson
+*        description: Create lesson
 *        schema:
 *          type: object
 *          required:
@@ -22,20 +23,20 @@ import { moduleService } from '@services/moduleService'
 *              type: string
 *            description:
 *              type: string
-*            courseId:
+*            moduleId:
 *              type: string
 *    responses:
 *      422:
 *        description: 'Invalid schema'
 *      200:
-*        description: 'module created'
+*        description: 'Lesson created'
 *        schema:
-*          $ref: '#/definitions/Module'
+*          $ref: '#/definitions/Lesson'
 */
 
-export const createModule = async (req: Request & { user: string }, res: Response) => {
-  const { order, name, description, courseId } = req.body
+export const createLesson = async (req: Request & { user: string }, res: Response) => {
+  const { order, name, description, moduleId } = req.body
 
-  const response = await moduleService.create({ name, description, order }, courseId, req.user)
+  const response = await lessonService.create({ name, description, order }, moduleId, req.user)
   return res.status(200).json(response)
 }

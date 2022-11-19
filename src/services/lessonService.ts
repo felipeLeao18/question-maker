@@ -114,7 +114,7 @@ const remove = async (lessonId: string, userId: string) => {
   await Lesson.updateMany({
     module: lesson.module,
     order: { $gt: lesson.order }
-  }, {$inc: {order: -1}})
+  }, { $inc: { order: -1 } })
   return lessonRemoved
 }
 

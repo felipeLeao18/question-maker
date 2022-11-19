@@ -30,8 +30,10 @@ import { lessonService } from '@services/lessonService'
 *        description: 'Invalid schema'
 *      200:
 *        description: 'Lesson created'
-*        schema:
-*          $ref: '#/definitions/Lesson'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Lesson'
 */
 
 export const createLesson = async (req: Request & { user: string }, res: Response) => {

@@ -18,8 +18,10 @@ import { moduleService } from '@services/moduleService'
 *        description: 'Unauthorized'
 *      200:
 *        description: 'module found'
-*        schema:
-*          $ref: '#/definitions/Module'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Module'
 */
 
 export const getModule = async (req: Request & { user: string }, res: Response) => {

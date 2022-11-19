@@ -18,8 +18,10 @@ import { lessonService } from '@services/lessonService'
 *        description: 'Unauthorized'
 *      200:
 *        description: 'lesson found'
-*        schema:
-*          $ref: '#/definitions/Lesson'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Lesson'
 */
 
 export const getLesson = async (req: Request & { user: string }, res: Response) => {

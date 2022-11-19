@@ -3,12 +3,22 @@
  * definitions:
  *     Course:
  *       properties:
+ *         _id:
+ *           type: string
  *         name:
  *           type: string
  *         description:
  *           type: string
  *         users:
- *           type: array of string
+ *           type: array
+ *           items:
+ *             type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  *       required:
  *         - name
  *       type: object

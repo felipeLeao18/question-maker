@@ -28,8 +28,10 @@ import { Request, Response } from 'express'
 *        description: 'Invalid schema'
 *      200:
 *        description: 'Course created'
-*        schema:
-*          $ref: '#/definitions/Course'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Course'
 */
 
 export const createCourse = async (req: Request & { user: string }, res: Response) => {

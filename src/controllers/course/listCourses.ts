@@ -13,7 +13,7 @@ import { courseService } from '@services/courseService'
 *    parameters:
 *      - in: query
 *        name: filter
-*        description: or filter to contains on name or description
+*        description: 'or filter to contains on name or description'
 *        schema:
 *          type: object
 *          properties:
@@ -28,8 +28,10 @@ import { courseService } from '@services/courseService'
 *        description: 'Invalid schema'
 *      200:
 *        description: 'courses list'
-*        schema:
-*          $ref: '#/definitions/Course'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Course'
 */
 
 export const listCourses = async (req: Request & { user: string }, res: Response) => {

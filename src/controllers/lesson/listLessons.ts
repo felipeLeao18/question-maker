@@ -5,16 +5,14 @@ import { lessonService } from '@services/lessonService'
 *  @swagger
 *  /lessons:
 *  get:
-*    summary: list module lessons
+*    summary: list lessons
 *    tags: [Lesson]
 *    consumes:
 *      - application/json
 *    parameters:
 *      - in: query
 *        name: filter
-*        description: or filter to contains on name or description
-*          required:
-*            - moduleId
+*        description: 'or filter to contains on name or description'
 *        schema:
 *          type: object
 *          properties:
@@ -28,9 +26,11 @@ import { lessonService } from '@services/lessonService'
 *      422:
 *        description: 'Invalid schema'
 *      200:
-*        description: 'lessons list'
-*        schema:
-*          $ref: '#/definitions/Lesson'
+*        description: 'Lessons list'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Lesson'
 */
 
 export const listLessons = async (req: Request & { user: string }, res: Response) => {

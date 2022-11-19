@@ -5,16 +5,24 @@ import { QuestionTypesEnum } from './QuestionTypesEnum'
  * definitions:
  *     Question:
  *       properties:
+ *         _id:
+ *           type: string
  *         body:
  *           type: string
  *         value:
  *           type: number
- *         type:
- *           type: objectid
  *         order:
  *           type: number
- *       type: object
- *      options:
+ *         type:
+ *           type: string
+ *           enum: ['ESSAY', 'TRUE_OR_FALSE', 'MULTIPLE_CHOICE']
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *         options:
  *          type: array
  *          items:
  *            type: object
@@ -25,13 +33,6 @@ import { QuestionTypesEnum } from './QuestionTypesEnum'
  *                type: boolean
  *              comment:
  *                type: string
- *      type:
- *           type: string
- *           schema:
- *            $ref: '#/components/schemas/QuestionTypesEnum'
- *       required:
- *         - body
- *         - type
  */
 
 export interface IQuestion {

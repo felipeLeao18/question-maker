@@ -9,7 +9,7 @@ const loginValid = zod.object({
   password: zod.string().min(6, 'password must have at least 6 characters')
 })
 
-const login = async ({ email, password }): Promise<{ success: true, token: string }> => {
+const login = async ({ email, password }): Promise<{ user: { _id: string, email: string }, token: string }> => {
   loginValid.parse({ email, password })
   const user = await User.findOne({ email })
 
@@ -22,7 +22,7 @@ const login = async ({ email, password }): Promise<{ success: true, token: strin
   const token = auth.createToken({ userId: user._id.toString() })
 
   return {
-    success: true,
+    user: { _id: user._id.toString(), email: user.email },
     token
   }
 }

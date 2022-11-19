@@ -5,16 +5,18 @@ import { QuestionTypesEnum } from './QuestionTypesEnum'
  * definitions:
  *     Question:
  *       properties:
+ *         _id:
+ *           type: string
  *         body:
  *           type: string
  *         value:
  *           type: number
- *         type:
- *           type: objectid
  *         order:
  *           type: number
- *       type: object
- *      options:
+ *         type:
+ *           type: string
+ *           enum: *TYPES
+ *         options:
  *          type: array
  *          items:
  *            type: object
@@ -25,10 +27,6 @@ import { QuestionTypesEnum } from './QuestionTypesEnum'
  *                type: boolean
  *              comment:
  *                type: string
- *      type:
- *           type: string
- *           schema:
- *            $ref: '#/components/schemas/QuestionTypesEnum'
  *       required:
  *         - body
  *         - type

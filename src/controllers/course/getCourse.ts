@@ -19,8 +19,10 @@ import { courseService } from '@services/courseService'
 *        description: 'Unauthorized'
 *      200:
 *        description: 'Course found'
-*        schema:
-*          $ref: '#/definitions/Course'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Course'
 */
 
 export const getCourse = async (req: Request & { user: string }, res: Response) => {

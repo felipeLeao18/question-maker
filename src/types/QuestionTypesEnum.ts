@@ -3,7 +3,7 @@
  * definitions:
  *  QuestionTypesEnum:
  *    type: string
- *    enum:
+ *    enum: &TYPES
  *      - MULTIPLE_CHOICE
  *      - ESSAY
  *      - TRUE_OR_FALSE

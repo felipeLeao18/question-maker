@@ -3,6 +3,8 @@
  * definitions:
  *     Lesson:
  *       properties:
+ *         _id:
+ *           type: string
  *         name:
  *           type: string
  *         description:
@@ -11,6 +13,12 @@
  *           type: string
  *         order:
  *           type: number
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
  *       required:
  *         - name
  *       type: object

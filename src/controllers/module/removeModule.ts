@@ -20,8 +20,10 @@ import { moduleService } from '@services/moduleService'
 *        description: 'Unauthorized'
 *      200:
 *        description: 'Module removed'
-*        schema:
-*          $ref: '#/definitions/Module'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Module'
 */
 
 export const removeModule = async (req: Request & { user: string }, res: Response) => {

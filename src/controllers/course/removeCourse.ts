@@ -20,8 +20,10 @@ import { courseService } from '@services/courseService'
 *        description: 'Unauthorized'
 *      200:
 *        description: 'Course removed'
-*        schema:
-*          $ref: '#/definitions/Course'
+*        content:
+*          application/json:
+*            schema:
+*              $ref: '#/definitions/Course'
 */
 
 export const removeCourse = async (req: Request & { user: string }, res: Response) => {

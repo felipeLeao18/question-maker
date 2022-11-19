@@ -80,7 +80,22 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, moduleId: string, u
   }
 }
 
+const findById = async (lessonId: string, userId: string) => {
+  const lesson: Omit<ILesson, 'module'> & { module: { course: string } } = await Lesson.findById(lessonId)
+    .populate({ path: 'module', select: 'course' })
+    .lean()
+
+  if (!lesson) {
+    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+  }
+
+  await validateUserOnCourse(userId, lesson.module.course)
+
+  return lesson
+}
+
 export const lessonService = {
   create,
-  list
+  list,
+  findById
 }

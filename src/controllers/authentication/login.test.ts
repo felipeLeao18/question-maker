@@ -91,8 +91,10 @@ describe('integration: login', () => {
       password: createUserSut.password
     })
 
-    const { success, token } = response.body
-    expect(success).toBe(true)
+    const { user, token } = response.body
+    expect(user._id).toBeDefined()
+    expect(user.email).toBeDefined()
+    expect(user.name).toBeDefined()
     expect(token).toBeDefined()
   })
 })

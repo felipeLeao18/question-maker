@@ -36,9 +36,15 @@ import { authService } from '@services/authService'
 *            schema:
 *              type: object
 *              properties:
-*                sucess:
-*                  type: boolean
-*                  description: the success status
+*                user:
+*                  type: object
+*                  properties:
+*                    _id:
+*                       type: string
+*                    email:
+*                       type: string
+*                    name:
+*                       type: string
 *                token:
 *                  type: string
 *                  description: the user token

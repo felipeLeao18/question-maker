@@ -89,10 +89,7 @@ const remove = async (moduleId: string, userId: string) => {
 }
 
 const findById = async (courseId: string, userId: string) => {
-  const module = await Module.findOne({
-    users: userId,
-    _id: courseId
-  })
+  const module = await Module.findById(courseId)
 
   if (!module) {
     throw buildError({ statusCode: 401, message: 'Unauthorized' })

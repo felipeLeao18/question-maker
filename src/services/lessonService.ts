@@ -47,6 +47,40 @@ const create = async ({ name, description = 'description', order }, moduleId: st
   return module
 }
 
+const list = async ({ filter = '', page = 1, perPage = 20 }, moduleId: string, userId: string) => {
+  if (!moduleId) {
+    throw buildError({ statusCode: 422, message: 'moduleId not provided' })
+  }
+
+  const module = await Module.findById(moduleId).select('course')
+  await validateUserOnCourse(userId, module?.course as string)
+
+  const fullFilter = filter
+    ? { $or: [{ name: new RegExp(filter, 'gim') }, { description: new RegExp(filter, 'gim') }] }
+    : {}
+
+  const lessons = await Lesson.find({
+    ...fullFilter,
+    module: moduleId
+  })
+    .skip(perPage * (page - 1))
+    .limit(perPage)
+    .sort({ order: 'desc' })
+
+  const totalSize = await Lesson.countDocuments({
+    ...fullFilter,
+    module: moduleId
+  })
+
+  return {
+    data: lessons,
+    totalSize,
+    from: (page - 1) * perPage + 1,
+    to: (page - 1) * perPage + lessons.length
+  }
+}
+
 export const lessonService = {
-  create
+  create,
+  list
 }

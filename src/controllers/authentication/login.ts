@@ -43,6 +43,8 @@ import { authService } from '@services/authService'
 *                       type: string
 *                    email:
 *                       type: string
+*                    name:
+*                       type: string
 *                token:
 *                  type: string
 *                  description: the user token

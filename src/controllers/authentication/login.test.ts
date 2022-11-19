@@ -94,6 +94,7 @@ describe('integration: login', () => {
     const { user, token } = response.body
     expect(user._id).toBeDefined()
     expect(user.email).toBeDefined()
+    expect(user.name).toBeDefined()
     expect(token).toBeDefined()
   })
 })

@@ -1,6 +1,6 @@
 import { IUser } from '@/types/IUser'
 import zod from 'zod'
-import { buildError } from '@lib/error'
+import { buildError, invalidSchemaError } from '@lib/error'
 import { crypt } from '@services/common/crypt'
 import { User } from '@models/UserModel'
 
@@ -13,7 +13,7 @@ const createUser = zod.object({
 const create = async ({ name, email, password }: Pick<IUser, 'name' | 'email' | 'password'>): Promise<{ user: { email: string, name: string, _id: string } }> => {
   createUser.parse({ name, email, password })
   if (!email) {
-    throw buildError({ statusCode: 422, message: 'Email not provided' })
+    throw invalidSchemaError('Email')
   }
 
   if (await User.findOne({ email })) {

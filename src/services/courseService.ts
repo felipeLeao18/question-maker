@@ -1,5 +1,5 @@
 import zod from 'zod'
-import { buildError } from '@lib/error'
+import { invalidSchemaError, unauthorizedError } from '@lib/error'
 import { Course } from '@models/CourseModel'
 
 const createCourse = zod.object({
@@ -45,7 +45,7 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, userId: string) => 
 
 const remove = async (courseId: string, userId: string) => {
   if (!courseId) {
-    throw buildError({ statusCode: 422, message: 'courseId not provided' })
+    throw invalidSchemaError('courseId')
   }
 
   const courseRemoved = await Course.findOneAndRemove({
@@ -54,7 +54,7 @@ const remove = async (courseId: string, userId: string) => {
   })
 
   if (!courseRemoved) {
-    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+    throw unauthorizedError()
   }
 
   return courseRemoved
@@ -67,7 +67,7 @@ const findById = async (courseId: string, userId: string) => {
   })
 
   if (!course) {
-    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+    throw unauthorizedError()
   }
 
   return course
@@ -75,12 +75,12 @@ const findById = async (courseId: string, userId: string) => {
 
 export const validateUserOnCourse = async (userId: string, courseId: string) => {
   if (!userId || !courseId) {
-    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+    throw unauthorizedError()
   }
 
   const userOnCourse = await Course.exists({ _id: courseId, users: userId })
   if (!userOnCourse) {
-    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+    throw unauthorizedError()
   }
 }
 

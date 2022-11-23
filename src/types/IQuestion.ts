@@ -13,6 +13,10 @@ import { QuestionTypesEnum } from './QuestionTypesEnum'
  *           type: number
  *         order:
  *           type: number
+ *         module:
+ *           type: string
+ *         lesson:
+ *           type: string
  *         type:
  *           type: string
  *           enum: ['ESSAY', 'TRUE_OR_FALSE', 'MULTIPLE_CHOICE']

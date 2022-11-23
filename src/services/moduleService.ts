@@ -1,5 +1,5 @@
 import zod from 'zod'
-import { buildError } from '@lib/error'
+import { invalidOrderError, invalidSchemaError, unauthorizedError } from '@lib/error'
 import { Module } from '@models/ModuleModel'
 import { validateUserOnCourse } from '@services/courseService'
 
@@ -17,7 +17,7 @@ const create = async ({ name, description = 'description', order }, courseId: st
   const higherOrder = (await Module.findOne({ course: courseId }, { order: 1 }).sort({ order: 'desc' }))?.order
 
   if (order !== null && (order <= 0 || (order > (higherOrder ?? 0) + 1))) {
-    throw buildError({ statusCode: 422, message: `order must be between 1 and ${(higherOrder ?? 0) + 1}` })
+    throw invalidOrderError((higherOrder ?? 0) + 1)
   }
 
   const module = await Module.create({
@@ -37,7 +37,7 @@ const create = async ({ name, description = 'description', order }, courseId: st
 
 const list = async ({ filter = '', page = 1, perPage = 20 }, courseId: string, userId: string) => {
   if (!courseId) {
-    throw buildError({ statusCode: 422, message: 'courseId not provided' })
+    throw invalidSchemaError('courseId')
   }
 
   await validateUserOnCourse(userId, courseId)
@@ -69,13 +69,13 @@ const list = async ({ filter = '', page = 1, perPage = 20 }, courseId: string, u
 
 const remove = async (moduleId: string, userId: string) => {
   if (!moduleId) {
-    throw buildError({ statusCode: 422, message: 'moduleId not provided' })
+    throw invalidSchemaError('moduleId')
   }
 
   const module = await Module.findById(moduleId).select('course')
 
   if (!module) {
-    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+    throw unauthorizedError()
   }
 
   await validateUserOnCourse(userId, module.course)
@@ -92,7 +92,7 @@ const findById = async (courseId: string, userId: string) => {
   const module = await Module.findById(courseId)
 
   if (!module) {
-    throw buildError({ statusCode: 401, message: 'Unauthorized' })
+    throw unauthorizedError()
   }
 
   await validateUserOnCourse(userId, module.course)

@@ -1,5 +1,5 @@
 import zod from 'zod'
-import { buildError, invalidOrderError, invalidSchemaError, unauthorizedError } from '@lib/error'
+import { invalidOrderError, invalidSchemaError, unauthorizedError } from '@lib/error'
 import { Module } from '@models/ModuleModel'
 import { validateUserOnCourse } from '@services/courseService'
 

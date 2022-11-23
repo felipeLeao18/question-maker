@@ -1,5 +1,5 @@
 import { IQuestion } from '@/types/IQuestion'
-import { buildError, invalidOrderError } from '@lib/error'
+import { invalidOrderError } from '@lib/error'
 import { Lesson } from '@models/LessonModel'
 import { Module } from '@models/ModuleModel'
 import { Question } from '@models/questionModel'

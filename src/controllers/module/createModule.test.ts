@@ -90,7 +90,7 @@ describe('integration: Create module', () => {
     expect(module.course.toString()).toBe(moduleSut.courseId.toString())
     expect(module.order).toBe(1)
   })
-  it('should return 422 and fail when order provided is not in modules range', async () => {
+  it('should return 412 and fail when order provided is not in modules range', async () => {
     await createUser()
     const userId = await getUser()
 
@@ -106,9 +106,9 @@ describe('integration: Create module', () => {
     }
     const response = await request(app).post('/modules').send(moduleSut).set({ 'x-api-key': token })
 
-    expect(response.statusCode).toBe(422)
+    expect(response.statusCode).toBe(412)
   })
-  it('should return 422 and fail when order provided is not in modules range', async () => {
+  it('should return 412 and fail when order provided is not in modules range', async () => {
     await createUser()
     const userId = await getUser()
 
@@ -124,7 +124,7 @@ describe('integration: Create module', () => {
     }
     const response = await request(app).post('/modules').send(moduleSut).set({ 'x-api-key': token })
 
-    expect(response.statusCode).toBe(422)
+    expect(response.statusCode).toBe(412)
   })
   it('should return 200 and create module, should update all previous created modules', async () => {
     await createUser()

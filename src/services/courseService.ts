@@ -1,5 +1,5 @@
 import zod from 'zod'
-import { buildError, invalidSchemaError, unauthorizedError } from '@lib/error'
+import { invalidSchemaError, unauthorizedError } from '@lib/error'
 import { Course } from '@models/CourseModel'
 
 const createCourse = zod.object({

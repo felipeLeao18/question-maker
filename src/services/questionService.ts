@@ -21,7 +21,7 @@ const createQuestion = zod.object({
       })
     }
 
-    if (!data.module || !data.lesson) {
+    if (!data.module && !data.lesson) {
       ctx.addIssue({
         code: zod.ZodIssueCode.custom,
         message: 'lesson or module must be provided'

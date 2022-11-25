@@ -190,6 +190,6 @@ describe('integration: Create question', () => {
     expect(question.body).toBe(body.body)
     expect(question.type).toBe(body.type)
     expect(question.module).toBe(module._id.toString())
-    expect(question.options.map(({_id, ...option}) => option)).toStrictEqual(body.options)
+    expect(question.options.map(({ _id, ...option }) => option)).toStrictEqual(body.options)
   })
 })

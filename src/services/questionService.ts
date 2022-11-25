@@ -8,13 +8,26 @@ import { QuestionTypesEnum } from '@/types/QuestionTypesEnum'
 import zod from 'zod'
 
 const createQuestion = zod.object({
-  body: zod.string().min(1, 'name is required'),
+  body: zod.string().min(1, 'question body is required'),
   type: zod.nativeEnum(QuestionTypesEnum),
   module: zod.string().optional(),
   lesson: zod.string().optional()
 })
-  .refine(data => !data.module || !data.lesson, 'lesson or module must be provided')
-  .refine(data => data.module && data.lesson, 'question must be linked only to lesson or module')
+  .superRefine((data, ctx) => {
+    if (data.module && data.lesson) {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: 'question must be linked only to lesson or module'
+      })
+    }
+
+    if (!data.module || !data.lesson) {
+      ctx.addIssue({
+        code: zod.ZodIssueCode.custom,
+        message: 'lesson or module must be provided'
+      })
+    }
+  })
 
 const create = async (data: IQuestion, userId: string) => {
   createQuestion.parse(data)

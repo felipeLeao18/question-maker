@@ -31,6 +31,9 @@ app.use(moduleRouter)
 app.use(lessonRouter)
 app.use(questionRouter)
 
+app.use('/', (req, res) => {
+  return res.json({ message: 'home' })
+})
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   if (err.err && err.err instanceof Error) {
     return res.status(err.statusCode).json({
